@@ -53,27 +53,28 @@ def embedding_process(txtai_arr):
     embeddings = Embeddings({
         "path": "sentence-transformers/all-MiniLM-L6-v2"
     })
+    embeddings.index(txtai_arr)
+    filename = filename_generator()
+    embeddings.save(f"Embedded_data/{filename}")
 
-    embeddings_dict = embeddings.index(txtai_arr)
-    embeddings.save(f"Embedded_data/{filename_generator()}")
-
-    return embeddings_dict
+    return embeddings.load(f"Embedded_data/{filename}")
 
 openness_keywords = ["new", "explore", "world", "wide", "open", "divers"]
 
 embedding = embedding_process(data_prep(path))
 
 print(embedding)
-def openness_score(embeddings_dict):
+def openness_score(filename):
     similarity_scores_openness = []
     for key in openness_keywords:
+        embeddings_dict = embedding_process()
         res = embeddings_dict.search(key, 3)
         for item in res:
             # print(item[1])
             similarity_scores_openness.append(item[1])
     return sum(similarity_scores_openness)/len(similarity_scores_openness)
 
-# print(openness_score())
+print(openness_score())
 #
 # def extraversion_score():
 #
