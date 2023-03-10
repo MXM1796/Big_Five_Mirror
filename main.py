@@ -68,7 +68,6 @@ url = "https://www.youtube.com/watch?v=-yzfxeMBe1s"
 
 print(video_id_collector(url))
 #
-# todo sentiment Analyse
 # todo Big five einlesen
 
 # todo Machine learning (advanced) - kommt später
