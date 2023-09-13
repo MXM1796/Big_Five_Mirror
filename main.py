@@ -1,9 +1,9 @@
 import os
-import google_auth_oauthlib
 import requests
 import google.oauth2.credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 import googleapiclient.discovery
+import google_auth_oauthlib.flow
 import pandas as pd
 import numpy as np
 
@@ -16,9 +16,10 @@ def youtube_api_connector(video_id):
 
     api_service_name = "youtube"
     api_version = "v3"
-    client_secrets_file = "credentials.json"
+    client_secrets_file = 'client_secret_2898000449-ra24ccl5cs05bln218sccqtasqtctrnp.apps.googleusercontent.com.json'
 
     # Get credentials and create an API client
+
     flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(
         client_secrets_file, scopes)
 
@@ -61,16 +62,19 @@ videoId = "Y4GVkBWX0R4"
 df1 = data_source_transscripts(videoId)
 df2 = data_source(videoId)
 
-df1.to_csv("test2.csv")
+df1.to_csv("test3.csv")
 df2.to_csv("test.csv")
 
 url = "https://www.youtube.com/watch?v=-yzfxeMBe1s"
 
-print(video_id_collector(url))
+print(df2)
+
 #
+# todo sentiment Analyse (Prototyp fertig)
 # todo Big five einlesen
 
 # todo Machine learning (advanced) - kommt später
-# todo Daten ordentlich abspeichern (Nächster Schritt: In MangoDb ordentlich speichern - Später!)
-# todo pentagon Diagram
+# todo Daten ordentlich abspeichern (Mongodb erstellt, speicher Ablauf fast abgeschlossen)
+# todo pentagon Diagram (Erstellt und funktioniert)
+# todo github project erstellen
 

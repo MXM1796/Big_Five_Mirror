@@ -1,104 +1,61 @@
 from txtai.embeddings import Embeddings
-import json
 import pandas as pd
-import datetime
+import numpy as np
+import plotly.express as px
 
-# print()
-# print(datetime.date())
+import json
 
-def date_and_time_func():
-    date_time = datetime.datetime.now()
-    year = date_time.year
-    month = date_time.month
-    day = date_time.day
-    time = date_time.time()
+embeddings = Embeddings({
+    'path': "sentence-transformers/all-MiniLM-L6-v2"
+})
 
-    return [year, month, day,  time.hour, time.minute]
+embeddings.load("test2_index1")
 
+test_csv = pd.read_csv("test2.csv", header=0, index_col=False, usecols=[1])
+test_csv.reset_index()
 
-def filename_generator():
-    date_time = datetime.datetime.now()
-    year = date_time.year
-    month = date_time.month
-    day = date_time.day
-    time = date_time.time()
+data = test_csv["text"]
 
-    filename = f"dataset_{year}_{month}_{day}_{time.hour}_{time.minute}_{time.second}"
-    return filename
+txtai_data = []
 
-print(filename_generator())
+for count, sent in enumerate(data):
+    txtai_data.append((count, sent, None))
 
+# embeddings.index(txtai_data)
 
-path = "test2.csv"
+word_arr_openess = ["travel", "exploring", "world", "new", "open", "experience", "curious"]
+word_arr_concs = ["organized", "carefully", "planed", "effective", "responsible", "reliable", "deliberate"]
+word_arr_extrv = ["sociable", "activ", "chatty", "warmly", "optimistic", "serene","Enthusiastic"]
+word_arr_agrgb = ["Altruism", "Understanding", "Goodwill", "Compassion", "Cooperativeness","Resilience", "emphatic"]
+word_arr_nrcm = ["fear","Nervousness","tension", "Mourning", "Uncertainty","Embarrassment", "Worries"]
 
-def data_prep(path):
-    txtai_data = []
+words_arr = [word_arr_openess,word_arr_concs,word_arr_extrv,word_arr_agrgb,word_arr_nrcm]
 
-    # read transcript csv
-    csv = pd.read_csv(path, header=0, index_col=False, usecols=[1])
-    csv = csv["text"].reset_index()
+def score_calc(score_arr):
+    """
+    test test test
+    """
+    avg_sum_arr = []
+    for val in score_arr.values():
+        if len(val) != 0:
+            avg_val = np.average(val)
+            avg_sum_arr.append(avg_val)
+    avg_score = np.average(avg_sum_arr)
 
-    i = 0
-    for index, sentence in csv.iterrows():
-        txtai_data.append((i, sentence["text"], None))
-        i = i+1
-    # for txtai adapted arrary
-    return txtai_data
+    return avg_score
 
-
-# print(data_prep(path))
-
-def embedding_process(txtai_arr):
-    # Initialisierung
-    embeddings = Embeddings({
-        "path": "sentence-transformers/all-MiniLM-L6-v2"
-    })
-    embeddings.index(txtai_arr)
-    filename = filename_generator()
-    embeddings.save(f"Embedded_data/{filename}")
-
-    return embeddings.load(f"Embedded_data/{filename}")
-
-openness_keywords = ["new", "explore", "world", "wide", "open", "divers"]
-
-embedding = embedding_process(data_prep(path))
-
-print(embedding)
-def openness_score(filename):
-    similarity_scores_openness = []
-    for key in openness_keywords:
-        embeddings_dict = embedding_process()
-        res = embeddings_dict.search(key, 3)
+def score_coll(word_arr,score=0.5):
+    score_dict = {}
+    for word in word_arr:
+        res = embeddings.search(word, 10)
+        score_arr = []
         for item in res:
-            # print(item[1])
-            similarity_scores_openness.append(item[1])
-    return sum(similarity_scores_openness)/len(similarity_scores_openness)
+            if item[1] > score:
+                score_arr.append(round(item[1],2))
 
-print(openness_score())
-#
-# def extraversion_score():
-#
-# def conscientiousness_score():
-#
-# def agreeableness_score():
-#
-# def neuroticism_score():
-#
-#
-#
-# # print(similarity_scores_openness)
-#
-# opennes_score = sum(similarity_scores_openness)/len(similarity_scores_openness)
-#
-# print(opennes_score)
+        score_dict[word] = score_arr
 
-# res = embeddings.search("hard", 3)
-#
-# for item in res:
-#     print(f"Text: {csv[item[0]]}")
-#     print(f"similarity: {item[1]}")
-#     print()
+    return score_calc(score_dict)
 
-# todo semantic search auf alle Eigenschaften anwenden - Blueprint
-# todo Funktionen einführen (Objetkorientiert programmieren)
-# todo Gewichtung  mit einführen (e-Funktion)
+score_arr_full = [round(score_coll(arr, 0.4),2) for arr in words_arr]
+
