@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Hello Extensions",
+  "description": "Base Level Extension",
+  "version": "1.0",
+  "action": {
+    "default_title": "Click to open panel"
+  },
+  "permissions": [
+    "sidePanel",
+    "activeTab"
+  ],
+  "side_panel": {
+    "default_path": "./pyth_data_transfer/templates/index.html"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+}
+}
