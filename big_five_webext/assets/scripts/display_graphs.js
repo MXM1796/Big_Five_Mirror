@@ -1,24 +1,31 @@
-import "./python_js_transfer.js"
 
-export function plottingData(data1) {
-    var data = [{
-      type: 'scatterpolar',
-      r: data1,
-      theta: ['O','C','E', 'A', 'N'],
-      fill: 'toself'
-    }]
+// Importieren der Datei "python_js_transfer.js", falls benötigt
+import "./python_js_transfer.js";
 
-    var layout = {
-      polar: {
-        radialaxis: {
-          visible: true,
-          range: [0, 50]
-        }
-      },
-      showlegend: false
-    }
+// Diese Funktion nimmt Daten entgegen und erstellt ein polarisiertes Streudiagramm.
+export function plottingData(score_arr) {
+  // Daten für das Streudiagramm
+  var data = [{
+    type: 'scatterpolar', // Diagrammtyp: polarisiertes Streudiagramm
+    r: score_arr, // Radienwerte für die Datenpunkte
+    theta: ['O', 'C', 'E', 'A', 'N'], // Winkelkoordinaten für die Datenpunkte
+    fill: 'toself' // Füllen des Bereichs unter der Kurve
+  }];
 
+  // Layouteinstellungen für das Diagramm
+  var layout = {
+    polar: {
+      radialaxis: {
+        visible: true,
+        range: [0, 1] // Wertebereich für die radialen Achsen
+      }
+    },
+    showlegend: false // Legende im Diagramm ausblenden
+  };
 
+  // Erstellen und Anzeigen des Diagramms in einem HTML-Element mit der ID 'plot'
   Plotly.newPlot('plot', data, layout);
-    console.log(data1);
+
+  // Konsolenausgabe der empfangenen Daten
+  console.log(score_arr);
 }

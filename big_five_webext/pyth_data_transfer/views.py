@@ -1,20 +1,18 @@
-# Create your views here.
+# Importieren der erforderlichen Module und Funktionen
 import numpy as np
-# In your Django app's views.py
 from django.shortcuts import render
 from django.http import HttpResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-import semantic_search
+import pyth_data_transfer.python_src.semantic_search as ses
 
-score_arr_full = semantic_search.score_arr_full
+# Dekorieren der Funktion 'my_api_endpoint' als API-Ansicht, die nur GET-Anfragen akzeptiert
 @api_view(['GET'])
 def my_api_endpoint(request):
-    # Handle the request and prepare a response
-    response_data = {"message": score_arr_full}
+    # Behandeln der Anfrage und Vorbereiten einer Antwort
+    response_data = {"message": ses.score_arr_full}
     return Response(response_data)
 
-# Create your views here.
+# Definition der Indexansichtsfunktion
 def index(request):
     return render(request, 'index.html', {})
-# Create your views here.
