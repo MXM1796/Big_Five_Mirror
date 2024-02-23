@@ -1,8 +1,7 @@
+// Importieren der Datei "py_to_js_transfer.js", falls benötigt
+import "./py_to_js_transfer.js";
 
-// Importieren der Datei "python_js_transfer.js", falls benötigt
-import "./python_js_transfer.js";
-
-// Diese Funktion nimmt Daten entgegen und erstellt ein polarisiertes Streudiagramm.
+// Diese Funktion nimmt Daten entgegen und erstellt ein Polarchart.
 export function plottingData(score_arr) {
   // Daten für das Streudiagramm
   var data = [{

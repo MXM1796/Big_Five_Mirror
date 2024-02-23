@@ -3,17 +3,17 @@
    "version": "1.0.0",
    "description": "",
    "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1",
+      "test": "echo \"Error: no test specified\" && exit 1"
    },
    "keywords": [],
    "author": "",
    "license": "ISC",
    "dependencies": {
       "buffer": "^6.0.3",
+      "jquerry": "^0.0.1-security",
       "path": "^0.12.7",
       "plotly.js-strict-dist-min": "^2.26.1",
+      "python-shell": "^5.0.0",
       "util": "^0.12.5"
    }
 }
-
-

@@ -3,17 +3,33 @@
   "name": "Hello Extensions",
   "description": "Base Level Extension",
   "version": "1.0",
-  "action": {
-    "default_title": "Click to open panel"
-  },
+  "action": {},
   "permissions": [
     "sidePanel",
-    "activeTab"
+    "tabs",
+    "storage"
   ],
   "side_panel": {
-    "default_path": "./pyth_data_transfer/templates/index.html"
+    "default_path": "./data_transfer/templates/index.html"
   },
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
+},
+  "content_scripts" : [{
+    "matches": ["https://www.youtube.com/*"],
+    "js": ["scripts/content.js"]
+  }],
+    "web_accessible_resources": [{
+     "matches": ["<all_urls>"],
+     "resources": ["assets/scripts/*"]
+    },
+      {
+        "matches": ["<all_urls>"],
+        "resources": ["node_modules/*"]
+      }],
+  "minimum_chrome_version": "102",
+  "omnibox": {
+    "keyword": "api"
+  }
 }
-}
+
